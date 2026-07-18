@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abdulhadi Kamran — Software Engineering Student</title>
+<meta name="description" content="Full Stack Developer (MERN) in training. Software Engineering student building in web, data, and ML.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="noise"></div>
+
+<nav class="nav">
+  <a href="#top" class="nav-mark">AK<span class="dot">.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">let's talk</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header id="top" class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">software engineering student — lahore, pk</p>
+    <h1 class="hero-title">
+      Abdulhadi<br>Kamran
+    </h1>
+    <p class="hero-sub">Full‑stack developer in training, building with the MERN stack, applied ML, and a habit of asking what the data actually says before the code gets written.</p>
+
+    <div class="terminal" id="terminal" aria-hidden="false">
+      <div class="terminal-bar">
+        <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+        <span class="terminal-title">whoami.sh</span>
+      </div>
+      <div class="terminal-body">
+        <p class="term-line"><span class="prompt">visitor@recruiter</span><span class="colon">:~$</span> <span id="termCommand"></span><span class="cursor">▍</span></p>
+        <div id="termOutput" class="term-output"></div>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View projects</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-scroll">scroll <span class="scroll-line"></span></div>
+</header>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="section about">
+  <div class="section-head">
+    <p class="section-eyebrow">01 — about</p>
+    <h2>Two years reading markets, now writing code.</h2>
+  </div>
+  <div class="about-grid">
+    <p class="about-text">
+      I'm a Software Engineering student at Riphah International University, specializing in the MERN stack, with a growing foundation in data structures, algorithms, and applied machine learning.
+    </p>
+    <p class="about-text">
+      Before development, I spent two years doing independent product research and pricing analysis for Amazon marketplace sellers — studying demand signals and competitor pricing to find products worth betting on. That habit of asking <em>what does the data actually say</em> carried straight over into how I approach building software: not just what's technically correct, but what a user actually needs.
+    </p>
+    <p class="about-text">
+      I'm currently completing a Sales &amp; Marketing internship at DefensIQ, translating technical product features into language non-technical stakeholders act on — the kind of skill that gets underrated in engineering.
+    </p>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects" class="section projects">
+  <div class="section-head">
+    <p class="section-eyebrow">02 — projects</p>
+    <h2>Shipped, not just started.</h2>
+  </div>
+
+  <div class="project-list">
+
+    <article class="project-card">
+      <div class="project-visual" data-visual="titanic">
+        <svg viewBox="0 0 400 240" class="project-svg" aria-hidden="true">
+          <line x1="30" y1="200" x2="370" y2="200" class="axis"/>
+          <line x1="30" y1="30" x2="30" y2="200" class="axis"/>
+          <polyline class="curve curve-a" points="30,190 80,150 130,160 180,100 230,110 280,60 330,70 370,40"/>
+          <polyline class="curve curve-b" points="30,195 80,185 130,140 180,150 230,90 280,95 330,50 370,55"/>
+          <circle cx="330" cy="50" r="4" class="pt"/>
+          <circle cx="370" cy="40" r="4" class="pt"/>
+        </svg>
+      </div>
+      <div class="project-body">
+        <div class="project-top">
+          <h3>Titanic Survival Prediction</h3>
+          <span class="project-date">2026</span>
+        </div>
+        <p>A classification model predicting Titanic passenger survival — cleaned and explored the raw dataset, engineered features, then compared logistic regression against decision trees.</p>
+        <p class="project-detail"><span class="detail-label">Technical call:</span> feature engineering on missing age/cabin data mattered more than model choice — tuning that step took accuracy from the mid‑70s to <strong>80%+</strong>.</p>
+        <div class="tag-row">
+          <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Scikit-Learn</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/abdulhadi128740-oss/Titanic-Project" target="_blank" rel="noopener">View on GitHub →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reverse">
+      <div class="project-visual" data-visual="donor">
+        <svg viewBox="0 0 400 240" class="project-svg" aria-hidden="true">
+          <rect x="60" y="40" width="90" height="60" rx="4" class="node"/>
+          <rect x="250" y="40" width="90" height="60" rx="4" class="node"/>
+          <rect x="60" y="150" width="90" height="60" rx="4" class="node"/>
+          <rect x="250" y="150" width="90" height="60" rx="4" class="node"/>
+          <line x1="150" y1="70" x2="250" y2="70" class="link"/>
+          <line x1="105" y1="100" x2="105" y2="150" class="link"/>
+          <line x1="295" y1="100" x2="295" y2="150" class="link"/>
+          <line x1="150" y1="180" x2="250" y2="180" class="link"/>
+        </svg>
+      </div>
+      <div class="project-body">
+        <div class="project-top">
+          <h3>Donor‑DSA — Blood Bank Management System</h3>
+          <span class="project-date">2025</span>
+        </div>
+        <p>Refactored a C++ blood bank system from a working prototype to an industry-standard build — full OOP redesign, safer memory handling, and real input validation.</p>
+        <p class="project-detail"><span class="detail-label">Technical call:</span> replaced raw pointers with <code>std::unique_ptr</code> throughout to close a class of memory-leak bugs, and added blood-type compatibility logic as a first-class rule rather than a hardcoded check.</p>
+        <div class="tag-row">
+          <span class="tag">C++</span><span class="tag">OOP</span><span class="tag">Data Structures</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/abdulhadi128740-oss/Donor-DSA" target="_blank" rel="noopener">View on GitHub →</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <p class="projects-note">More in progress — a Unity roguelike and a full MERN application are both underway and will land here once they're ready to show, not before.</p>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section id="skills" class="section skills">
+  <div class="section-head">
+    <p class="section-eyebrow">03 — skills</p>
+    <h2>What I build with.</h2>
+  </div>
+
+  <div class="skills-grid">
+    <div class="skill-group">
+      <h3>Languages</h3>
+      <div class="tag-row mono">
+        <span class="tag">JavaScript</span><span class="tag">Java</span><span class="tag">C++</span><span class="tag">Python</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h3>Web &amp; Frameworks</h3>
+      <div class="tag-row mono">
+        <span class="tag">React.js</span><span class="tag">Node.js</span><span class="tag">MongoDB</span><span class="tag">Express</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h3>Data &amp; ML</h3>
+      <div class="tag-row mono">
+        <span class="tag">Pandas</span><span class="tag">Scikit-Learn</span><span class="tag">Neural Networks</span><span class="tag">Data Structures</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h3>Tools &amp; Cloud</h3>
+      <div class="tag-row mono">
+        <span class="tag">Git</span><span class="tag">AWS</span><span class="tag">Cloud Computing</span><span class="tag">NetBeans</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience" class="section experience">
+  <div class="section-head">
+    <p class="section-eyebrow">04 — experience</p>
+    <h2>Where the time went.</h2>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">Dec 2025 — Mar 2026</div>
+      <div class="timeline-content">
+        <h3>Sales &amp; Marketing Intern</h3>
+        <p class="timeline-org">DefensIQ</p>
+        <ul>
+          <li>Bridged technical product features and market-driven user needs, translating engineering output into value propositions non-technical stakeholders could act on</li>
+          <li>Analyzed market trends and competitor activity to feed actionable product feedback</li>
+          <li>Built outreach and communication strategies that improved engagement across campaigns</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">Mar 2022 — Feb 2024</div>
+      <div class="timeline-content">
+        <h3>Product Research Consultant — Amazon Marketplace Sellers</h3>
+        <p class="timeline-org">Self-Employed / Freelance</p>
+        <ul>
+          <li>Conducted independent product research and pricing analysis for two Amazon marketplace stores</li>
+          <li>Identified 30+ high-potential products by analyzing demand signals and competitor pricing</li>
+          <li>Aligned recommendations directly with client catalog and pricing decisions</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-date">Since Oct 2023</div>
+      <div class="timeline-content">
+        <h3>Software Engineering</h3>
+        <p class="timeline-org">Riphah International University</p>
+        <ul>
+          <li>Coursework spanning data structures, algorithms, operating systems, and full-stack web development</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="section contact">
+  <div class="contact-inner">
+    <p class="section-eyebrow">05 — contact</p>
+    <h2>Open to full-stack and software engineering roles.</h2>
+    <p class="contact-sub">Internships, entry-level positions, or just talking shop about ML, data structures, or game dev — my inbox is open.</p>
+
+    <div class="contact-links">
+      <a href="mailto:abdulhadi128740@gmail.com" class="contact-link">
+        <span class="contact-label">Email</span>
+        <span class="contact-value">abdulhadi128740@gmail.com</span>
+      </a>
+      <a href="https://www.linkedin.com/in/abdulhadikamran-a9330429a" target="_blank" rel="noopener" class="contact-link">
+        <span class="contact-label">LinkedIn</span>
+        <span class="contact-value">/in/abdulhadikamran-a9330429a</span>
+      </a>
+      <a href="https://github.com/abdulhadi128740-oss" target="_blank" rel="noopener" class="contact-link">
+        <span class="contact-label">GitHub</span>
+        <span class="contact-value">@abdulhadi128740-oss</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>Built with HTML, CSS &amp; JS by Abdulhadi Kamran — <span id="year"></span></p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
