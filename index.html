@@ -38,14 +38,27 @@
     </h1>
     <p class="hero-sub">Full‑stack developer in training, building with the MERN stack, applied ML, and a habit of asking what the data actually says before the code gets written.</p>
 
-    <div class="terminal" id="terminal" aria-hidden="false">
+    <div class="terminal" id="terminal">
       <div class="terminal-bar">
         <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
-        <span class="terminal-title">whoami.sh</span>
+        <span class="terminal-title">visitor@abdulhadi:~$</span>
       </div>
       <div class="terminal-body">
-        <p class="term-line"><span class="prompt">visitor@recruiter</span><span class="colon">:~$</span> <span id="termCommand"></span><span class="cursor">▍</span></p>
-        <div id="termOutput" class="term-output"></div>
+        <div class="term-log" id="termLog">
+          <p class="term-line">This terminal actually runs. Type <span class="hl">help</span> and press enter.</p>
+        </div>
+        <div class="term-input-row">
+          <span class="prompt">visitor@recruiter</span><span class="colon">:~$</span>
+          <input
+            type="text"
+            id="termInput"
+            class="term-input"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            aria-label="Terminal command input — type help and press enter"
+          >
+        </div>
       </div>
     </div>
 
@@ -83,67 +96,9 @@
     <h2>Shipped, not just started.</h2>
   </div>
 
-  <div class="project-list">
-
-    <article class="project-card">
-      <div class="project-visual" data-visual="titanic">
-        <svg viewBox="0 0 400 240" class="project-svg" aria-hidden="true">
-          <line x1="30" y1="200" x2="370" y2="200" class="axis"/>
-          <line x1="30" y1="30" x2="30" y2="200" class="axis"/>
-          <polyline class="curve curve-a" points="30,190 80,150 130,160 180,100 230,110 280,60 330,70 370,40"/>
-          <polyline class="curve curve-b" points="30,195 80,185 130,140 180,150 230,90 280,95 330,50 370,55"/>
-          <circle cx="330" cy="50" r="4" class="pt"/>
-          <circle cx="370" cy="40" r="4" class="pt"/>
-        </svg>
-      </div>
-      <div class="project-body">
-        <div class="project-top">
-          <h3>Titanic Survival Prediction</h3>
-          <span class="project-date">2026</span>
-        </div>
-        <p>A classification model predicting Titanic passenger survival — cleaned and explored the raw dataset, engineered features, then compared logistic regression against decision trees.</p>
-        <p class="project-detail"><span class="detail-label">Technical call:</span> feature engineering on missing age/cabin data mattered more than model choice — tuning that step took accuracy from the mid‑70s to <strong>80%+</strong>.</p>
-        <div class="tag-row">
-          <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Scikit-Learn</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/abdulhadi128740-oss/Titanic-Project" target="_blank" rel="noopener">View on GitHub →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="project-card reverse">
-      <div class="project-visual" data-visual="donor">
-        <svg viewBox="0 0 400 240" class="project-svg" aria-hidden="true">
-          <rect x="60" y="40" width="90" height="60" rx="4" class="node"/>
-          <rect x="250" y="40" width="90" height="60" rx="4" class="node"/>
-          <rect x="60" y="150" width="90" height="60" rx="4" class="node"/>
-          <rect x="250" y="150" width="90" height="60" rx="4" class="node"/>
-          <line x1="150" y1="70" x2="250" y2="70" class="link"/>
-          <line x1="105" y1="100" x2="105" y2="150" class="link"/>
-          <line x1="295" y1="100" x2="295" y2="150" class="link"/>
-          <line x1="150" y1="180" x2="250" y2="180" class="link"/>
-        </svg>
-      </div>
-      <div class="project-body">
-        <div class="project-top">
-          <h3>Donor‑DSA — Blood Bank Management System</h3>
-          <span class="project-date">2025</span>
-        </div>
-        <p>Refactored a C++ blood bank system from a working prototype to an industry-standard build — full OOP redesign, safer memory handling, and real input validation.</p>
-        <p class="project-detail"><span class="detail-label">Technical call:</span> replaced raw pointers with <code>std::unique_ptr</code> throughout to close a class of memory-leak bugs, and added blood-type compatibility logic as a first-class rule rather than a hardcoded check.</p>
-        <div class="tag-row">
-          <span class="tag">C++</span><span class="tag">OOP</span><span class="tag">Data Structures</span>
-        </div>
-        <div class="project-links">
-          <a href="https://github.com/abdulhadi128740-oss/Donor-DSA" target="_blank" rel="noopener">View on GitHub →</a>
-        </div>
-      </div>
-    </article>
-
-  </div>
-
-  <p class="projects-note">More in progress — a Unity roguelike and a full MERN application are both underway and will land here once they're ready to show, not before.</p>
+  <!-- Cards are rendered by script.js from the `projects` array,
+       so adding a new project only means editing that array. -->
+  <div class="project-list" id="projectList"></div>
 </section>
 
 <!-- ================= SKILLS ================= -->

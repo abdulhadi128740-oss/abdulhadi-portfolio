@@ -175,6 +175,7 @@ img,svg{ display:block; max-width:100%; }
   max-width:560px;
   box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
   margin-bottom:40px;
+  cursor:text;
 }
 .terminal-bar{
   display:flex; align-items:center; gap:8px;
@@ -191,23 +192,47 @@ img,svg{ display:block; max-width:100%; }
   margin-left:8px;
 }
 .terminal-body{
-  padding:18px 16px;
+  padding:16px;
   font-family:var(--font-mono);
-  font-size:0.9rem;
-  min-height: 92px;
+  font-size:0.88rem;
 }
+
+.term-log{
+  max-height:180px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  margin-bottom:12px;
+  padding-right:4px;
+}
+.term-log::-webkit-scrollbar{ width:6px; }
+.term-log::-webkit-scrollbar-thumb{ background:var(--line); border-radius:3px; }
+
+.term-line{ color:var(--text-muted); line-height:1.5; }
+.term-line.echo{ color:var(--text); }
 .term-line .prompt{ color:var(--accent); }
 .term-line .colon{ color:var(--text-dim); }
-#termCommand{ color:var(--text); }
-.cursor{ color:var(--accent); animation:blink 1s step-start infinite; }
-@keyframes blink{ 50%{ opacity:0; } }
-.term-output{
-  margin-top:10px;
-  color:var(--text-muted);
-  white-space:pre-wrap;
-  min-height: 3.2em;
+.term-line .hl{ color:var(--accent); }
+
+.term-input-row{
+  display:flex; align-items:center; gap:6px;
+  border-top:1px solid var(--line);
+  padding-top:10px;
 }
-.term-output .hl{ color:var(--accent); }
+.term-input-row .prompt{ color:var(--accent); white-space:nowrap; }
+.term-input-row .colon{ color:var(--text-dim); }
+.term-input{
+  flex:1;
+  min-width:0;
+  background:transparent;
+  border:none;
+  outline:none;
+  color:var(--text);
+  font-family:var(--font-mono);
+  font-size:0.88rem;
+  caret-color:var(--accent);
+}
 
 .hero-actions{ display:flex; gap:16px; flex-wrap:wrap; }
 
@@ -274,6 +299,8 @@ img,svg{ display:block; max-width:100%; }
 .pt{ fill:var(--accent); }
 .node{ fill:var(--bg-panel-2); stroke:var(--accent-2); stroke-width:1.5; }
 .link{ stroke:var(--accent); stroke-width:1.5; stroke-dasharray:4 4; }
+.grid-cell{ fill:var(--bg-panel-2); stroke:var(--line); stroke-width:1; }
+.code-glyph{ font-family:var(--font-mono); font-size:56px; fill:var(--accent); opacity:0.85; }
 
 .project-body h3{
   font-family:var(--font-display);
@@ -306,6 +333,7 @@ img,svg{ display:block; max-width:100%; }
   border-radius:20px;
 }
 
+.project-links{ display:flex; gap:20px; flex-wrap:wrap; }
 .project-links a{
   font-family:var(--font-mono);
   font-size:0.88rem;
