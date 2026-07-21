@@ -317,4 +317,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initTerminal();
 
+  /* =====================================================================
+     CONTACT FORM — client-side validation + Formspree submission.
+     Validates on blur (so errors show as you leave a field) and again
+     on submit. If every field is valid, it POSTs via fetch so the page
+     never navigates away; the status line reports success/failure.
+  ===================================================================== */
+  function initContactForm() {
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    if (!form || !status) return;
+
+    const validators = {
+      name: (v) => v.trim().length >= 2
+        ? ''
+        : 'Enter your name (at least 2 characters).',
+      email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())
+        ? ''
+        : 'Enter a valid email address.',
+      message: (v) => v.trim().length >= 10
+        ? ''
+        : 'Message should be at least 10 characters.',
+    };
+
+    function showError(field, msg) {
+      const inputEl = form.querySelector(`#cf-${field}`);
+      const errorEl = form.querySelector(`[data-error-for="cf-${field}"]`);
+      if (errorEl) errorEl.textContent = msg;
+      if (inputEl) inputEl.classList.toggle('invalid', Boolean(msg));
+    }
+
+    function validateField(field) {
+      const inputEl = form.querySelector(`#cf-${field}`);
+      if (!inputEl) return '';
+      const msg = validators[field](inputEl.value);
+      showError(field, msg);
+      return msg;
+    }
+
+    Object.keys(validators).forEach(field => {
+      const inputEl = form.querySelector(`#cf-${field}`);
+      if (!inputEl) return;
+      inputEl.addEventListener('blur', () => validateField(field));
+      inputEl.addEventListener('input', () => {
+        if (inputEl.classList.contains('invalid')) validateField(field);
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const messages = Object.keys(validators).map(validateField);
+      const hasError = messages.some(Boolean);
+
+      if (hasError) {
+        status.textContent = 'Please fix the highlighted fields.';
+        status.className = 'form-status error';
+        return;
+      }
+
+      const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      status.textContent = 'Sending…';
+      status.className = 'form-status';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+
+        if (response.ok) {
+          status.textContent = "Message sent — thanks! I'll get back to you soon.";
+          status.className = 'form-status success';
+          form.reset();
+        } else {
+          throw new Error('Submission failed');
+        }
+      } catch (err) {
+        status.textContent = 'Something went wrong — email me directly at abdulhadi128740@gmail.com instead.';
+        status.className = 'form-status error';
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  initContactForm();
+
 });

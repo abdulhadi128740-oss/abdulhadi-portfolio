@@ -20,6 +20,7 @@
     <li><a href="#about">about</a></li>
     <li><a href="#projects">projects</a></li>
     <li><a href="#skills">skills</a></li>
+    <li><a href="#education">education</a></li>
     <li><a href="#experience">experience</a></li>
     <li><a href="#contact">contact</a></li>
   </ul>
@@ -136,10 +137,36 @@
   </div>
 </section>
 
+<!-- ================= EDUCATION ================= -->
+<section id="education" class="section education">
+  <div class="section-head">
+    <p class="section-eyebrow">04 — education</p>
+    <h2>Formal training, stacked with certifications.</h2>
+  </div>
+
+  <div class="education-grid">
+    <div class="education-main">
+      <h3>Bachelor of Software Engineering</h3>
+      <p class="education-org">Riphah International University</p>
+      <p class="education-date">October 2023 — Present</p>
+      <p class="education-detail">Coursework spanning data structures, algorithms, operating systems, and full-stack web development.</p>
+    </div>
+
+    <div class="education-certs">
+      <h3>Certifications</h3>
+      <ul class="cert-list">
+        <li>Fundamentals of Machine Learning and Artificial Intelligence — AWS</li>
+        <li>Data Science with Python — DevTown</li>
+        <li>C++ Essentials 1 &amp; Operating Systems Basics — Cisco Networking Academy</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- ================= EXPERIENCE ================= -->
 <section id="experience" class="section experience">
   <div class="section-head">
-    <p class="section-eyebrow">04 — experience</p>
+    <p class="section-eyebrow">05 — experience</p>
     <h2>Where the time went.</h2>
   </div>
 
@@ -169,26 +196,42 @@
         </ul>
       </div>
     </div>
-
-    <div class="timeline-item">
-      <div class="timeline-date">Since Oct 2023</div>
-      <div class="timeline-content">
-        <h3>Software Engineering</h3>
-        <p class="timeline-org">Riphah International University</p>
-        <ul>
-          <li>Coursework spanning data structures, algorithms, operating systems, and full-stack web development</li>
-        </ul>
-      </div>
-    </div>
   </div>
 </section>
 
 <!-- ================= CONTACT ================= -->
 <section id="contact" class="section contact">
   <div class="contact-inner">
-    <p class="section-eyebrow">05 — contact</p>
+    <p class="section-eyebrow">06 — contact</p>
     <h2>Open to full-stack and software engineering roles.</h2>
     <p class="contact-sub">Internships, entry-level positions, or just talking shop about ML, data structures, or game dev — my inbox is open.</p>
+
+    <!--
+      Client-side validation runs in script.js regardless of the action below.
+      The action URL points to Formspree (formspree.io) so the form actually
+      delivers an email without a custom backend — sign up for a free account,
+      create a form, and replace YOUR_FORM_ID with the ID Formspree gives you.
+      Until that's replaced, validation still works, but submission will fail.
+    -->
+    <form id="contactForm" class="contact-form" action="https://formspree.io/f/xgogzkde" method="POST" novalidate>
+      <div class="form-row">
+        <label for="cf-name">Name</label>
+        <input type="text" id="cf-name" name="name" autocomplete="name">
+        <span class="form-error" data-error-for="cf-name"></span>
+      </div>
+      <div class="form-row">
+        <label for="cf-email">Email</label>
+        <input type="email" id="cf-email" name="email" autocomplete="email">
+        <span class="form-error" data-error-for="cf-email"></span>
+      </div>
+      <div class="form-row">
+        <label for="cf-message">Message</label>
+        <textarea id="cf-message" name="message" rows="5"></textarea>
+        <span class="form-error" data-error-for="cf-message"></span>
+      </div>
+      <button type="submit" class="btn btn-primary">Send message</button>
+      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+    </form>
 
     <div class="contact-links">
       <a href="mailto:abdulhadi128740@gmail.com" class="contact-link">
