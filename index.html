@@ -12,7 +12,11 @@
 </head>
 <body>
 
+<canvas id="bgCanvas" class="bg-canvas" aria-hidden="true"></canvas>
+<div class="spotlight" aria-hidden="true"></div>
 <div class="noise"></div>
+<div id="cursorBlock" class="cursor-block" aria-hidden="true"></div>
+<div id="cursorDot" class="cursor-dot" aria-hidden="true"></div>
 
 <nav class="nav">
   <a href="#top" class="nav-mark">AK<span class="dot">.</span></a>
@@ -25,6 +29,7 @@
     <li><a href="#contact">contact</a></li>
   </ul>
   <a href="#contact" class="nav-cta">let's talk</a>
+  <a href="AbdulhadiKamran_Resume.pdf" download class="nav-resume" title="Download resume (PDF)">Résumé ↓</a>
   <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
@@ -32,6 +37,7 @@
 
 <!-- ================= HERO ================= -->
 <header id="top" class="hero">
+  <div class="aurora" aria-hidden="true"></div>
   <div class="hero-inner">
     <p class="eyebrow">software engineering student — lahore, pk</p>
     <h1 class="hero-title">
@@ -66,6 +72,7 @@
     <div class="hero-actions">
       <a href="#projects" class="btn btn-primary">View projects</a>
       <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      <a href="resume.pdf" class="btn btn-ghost" download>Download résumé</a>
     </div>
   </div>
   <div class="hero-scroll">scroll <span class="scroll-line"></span></div>
@@ -78,20 +85,58 @@
     <h2>Two years reading markets, now writing code.</h2>
   </div>
   <div class="about-grid">
-    <p class="about-text">
-      I'm a Software Engineering student at Riphah International University, specializing in the MERN stack, with a growing foundation in data structures, algorithms, and applied machine learning.
-    </p>
-    <p class="about-text">
-      Before development, I spent two years doing independent product research and pricing analysis for Amazon marketplace sellers — studying demand signals and competitor pricing to find products worth betting on. That habit of asking <em>what does the data actually say</em> carried straight over into how I approach building software: not just what's technically correct, but what a user actually needs.
-    </p>
-    <p class="about-text">
-      I'm currently completing a Sales &amp; Marketing internship at DefensIQ, translating technical product features into language non-technical stakeholders act on — the kind of skill that gets underrated in engineering.
-    </p>
+    <div class="about-copy">
+      <p class="about-text">
+        I'm a Software Engineering student at Riphah International University, specializing in the MERN stack, with a growing foundation in data structures, algorithms, and applied machine learning.
+      </p>
+      <p class="about-text">
+        Before development, I spent two years doing independent product research and pricing analysis for Amazon marketplace sellers — studying demand signals and competitor pricing to find products worth betting on. That habit of asking <em>what does the data actually say</em> carried straight over into how I approach building software: not just what's technically correct, but what a user actually needs.
+      </p>
+      <p class="about-text">
+        I'm currently completing a Sales &amp; Marketing internship at DefensIQ, translating technical product features into language non-technical stakeholders act on — the kind of skill that gets underrated in engineering.
+      </p>
+    </div>
+    <aside class="about-facts">
+      <div class="fact">
+        <span class="fact-num">2+</span>
+        <span class="fact-label">years of market &amp; pricing research</span>
+      </div>
+      <div class="fact">
+        <span class="fact-num">30+</span>
+        <span class="fact-label">products analyzed for demand signals</span>
+      </div>
+      <div class="fact">
+        <span class="fact-num">3</span>
+        <span class="fact-label">certifications in ML, data science &amp; systems</span>
+      </div>
+    </aside>
   </div>
 </section>
 
 <!-- ================= PROJECTS ================= -->
 <section id="projects" class="section projects">
+  <svg class="gitgraph" viewBox="0 0 260 800" preserveAspectRatio="xMinYMin meet" aria-hidden="true" focusable="false">
+    <path class="git-line" d="M40,10 L40,790"/>
+    <path class="git-line" d="M40,150 C70,150 110,160 110,180 L110,420 C110,440 70,450 40,460"/>
+    <path class="git-line" d="M40,560 C65,560 95,570 95,590 L95,680 C95,700 65,705 40,710"/>
+
+    <path class="git-comet main" d="M40,10 L40,790"/>
+    <path class="git-comet branch" d="M40,150 C70,150 110,160 110,180 L110,420 C110,440 70,450 40,460"/>
+
+    <circle class="git-dot" cx="40" cy="10" r="4.5" style="animation-delay:0s"/>
+    <circle class="git-dot" cx="40" cy="150" r="4.5" style="animation-delay:0.3s"/>
+    <circle class="git-dot warm" cx="110" cy="180" r="4" style="animation-delay:0.6s"/>
+    <circle class="git-dot" cx="40" cy="300" r="4.5" style="animation-delay:0.9s"/>
+    <circle class="git-dot warm" cx="110" cy="300" r="4" style="animation-delay:1.1s"/>
+    <circle class="git-dot warm" cx="110" cy="420" r="4" style="animation-delay:1.4s"/>
+    <circle class="git-dot" cx="40" cy="460" r="4.5" style="animation-delay:1.7s"/>
+    <circle class="git-dot" cx="40" cy="560" r="4.5" style="animation-delay:2s"/>
+    <circle class="git-dot warm" cx="95" cy="590" r="4" style="animation-delay:2.3s"/>
+    <circle class="git-dot warm" cx="95" cy="650" r="4" style="animation-delay:2.6s"/>
+    <circle class="git-dot" cx="40" cy="650" r="4.5" style="animation-delay:2.9s"/>
+    <circle class="git-dot" cx="40" cy="710" r="4.5" style="animation-delay:3.2s"/>
+    <circle class="git-dot" cx="40" cy="790" r="4.5" style="animation-delay:3.5s"/>
+  </svg>
   <div class="section-head">
     <p class="section-eyebrow">02 — projects</p>
     <h2>Shipped, not just started.</h2>
@@ -214,6 +259,7 @@
       Until that's replaced, validation still works, but submission will fail.
     -->
     <form id="contactForm" class="contact-form" action="https://formspree.io/f/xgogzkde" method="POST" novalidate>
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
       <div class="form-row">
         <label for="cf-name">Name</label>
         <input type="text" id="cf-name" name="name" autocomplete="name">
@@ -250,9 +296,15 @@
   </div>
 </section>
 
+<button id="scrollTopBtn" class="scroll-top-btn" aria-label="Scroll to top" title="Back to top">
+  <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 5l-7 7h4v7h6v-7h4z" fill="currentColor"/></svg>
+</button>
+
 <footer class="footer">
   <p>Built with HTML, CSS &amp; JS by Abdulhadi Kamran — <span id="year"></span></p>
 </footer>
+
+<button id="scrollTopBtn" class="scroll-top" aria-label="Scroll back to top">↑</button>
 
 <script src="script.js"></script>
 </body>

@@ -1,5 +1,302 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* =====================================================================
+     LIVE BACKGROUND — animated particle network + cursor spotlight.
+     Runs on a <canvas> fixed behind all content. Particles drift slowly,
+     draw connecting lines when close to each other, and gently drift
+     toward the cursor when it's nearby, so the page feels alive rather
+     than static. Fully paused when the tab isn't visible, and reduced
+     to a single static frame for prefers-reduced-motion.
+  ===================================================================== */
+  function initBackgroundParticles() {
+    const canvas = document.getElementById('bgCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const ACCENT = [56, 189, 248];   // --accent
+    const ACCENT2 = [59, 130, 246];  // --accent-2
+    const LINK_DIST = 130;
+    const MOUSE_RADIUS = 160;
+
+    let width, height, dpr;
+    let particles = [];
+    let rafId = null;
+    const mouse = { x: 0, y: 0, active: false };
+
+    function sizeCanvas() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function makeParticles() {
+      const area = width * height;
+      // scale particle count with viewport, capped for perf on large/small screens
+      const count = Math.min(85, Math.max(26, Math.round(area / 17000)));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.5 + 0.6,
+      }));
+    }
+
+    function drawFrame() {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x <= 0 || p.x >= width) p.vx *= -1;
+        if (p.y <= 0 || p.y >= height) p.vy *= -1;
+
+        if (mouse.active) {
+          const dx = mouse.x - p.x, dy = mouse.y - p.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < MOUSE_RADIUS && dist > 0.01) {
+            p.x -= (dx / dist) * 0.22;
+            p.y -= (dy / dist) * 0.22;
+          }
+        }
+      });
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const a = particles[i], b = particles[j];
+          const dist = Math.hypot(a.x - b.x, a.y - b.y);
+          if (dist < LINK_DIST) {
+            const alpha = (1 - dist / LINK_DIST) * 0.16;
+            ctx.strokeStyle = `rgba(${ACCENT.join(',')},${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      particles.forEach((p, i) => {
+        const color = i % 3 === 0 ? ACCENT2 : ACCENT;
+        ctx.fillStyle = `rgba(${color.join(',')},0.7)`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function loop() {
+      drawFrame();
+      rafId = requestAnimationFrame(loop);
+    }
+
+    function start() {
+      if (rafId || prefersReducedMotion) return;
+      rafId = requestAnimationFrame(loop);
+    }
+    function stop() {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+
+    sizeCanvas();
+    makeParticles();
+    drawFrame();       // always paint at least one frame
+    start();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        sizeCanvas();
+        makeParticles();
+        drawFrame();
+      }, 150);
+    }, { passive: true });
+
+    window.addEventListener('pointermove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+      document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+      document.documentElement.style.setProperty('--my', e.clientY + 'px');
+    }, { passive: true });
+
+    window.addEventListener('pointerleave', () => { mouse.active = false; });
+    window.addEventListener('pointerup', () => { mouse.active = false; }, { passive: true });
+    window.addEventListener('pointercancel', () => { mouse.active = false; }, { passive: true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stop();
+      else start();
+    });
+  }
+
+  initBackgroundParticles();
+
+  /* =====================================================================
+     CUSTOM TERMINAL CURSOR
+     A small blinking "caret" block trails the pointer with a soft lerp,
+     plus a tight dot that tracks it exactly — only on devices with a
+     real mouse (pointer:fine). Touch devices keep their native behavior
+     untouched. Text inputs keep a normal text caret for usability.
+  ===================================================================== */
+  function initCustomCursor() {
+    const block = document.getElementById('cursorBlock');
+    const dot = document.getElementById('cursorDot');
+    if (!block || !dot) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
+    document.body.classList.add('custom-cursor');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const lerp = prefersReducedMotion ? 1 : 0.2;
+
+    let bx = window.innerWidth / 2, by = window.innerHeight / 2;
+    let tx = bx, ty = by;
+    let hasMoved = false;
+
+    window.addEventListener('pointermove', (e) => {
+      tx = e.clientX;
+      ty = e.clientY;
+      hasMoved = true;
+      dot.style.transform = `translate(${tx}px, ${ty}px) translate(-50%, -50%)`;
+      document.body.classList.remove('cursor-hide');
+    }, { passive: true });
+
+    (function raf() {
+      bx += (tx - bx) * lerp;
+      by += (ty - by) * lerp;
+      if (hasMoved) {
+        block.style.transform = `translate(${bx}px, ${by}px) translate(-50%, -50%)`;
+      }
+      requestAnimationFrame(raf);
+    })();
+
+    const hoverSelector = 'a, button, .term-input, [role="button"]';
+    const textSelector = 'input, textarea, .term-input';
+
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest(textSelector)) {
+        document.body.classList.add('cursor-hide');
+      } else if (e.target.closest(hoverSelector)) {
+        document.body.classList.add('cursor-hover');
+      }
+    });
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest(textSelector)) document.body.classList.remove('cursor-hide');
+      if (e.target.closest(hoverSelector)) document.body.classList.remove('cursor-hover');
+    });
+
+    document.addEventListener('mouseleave', () => document.body.classList.add('cursor-hide'));
+    document.addEventListener('mouseenter', () => document.body.classList.remove('cursor-hide'));
+  }
+
+  initCustomCursor();
+
+  /* =====================================================================
+     DECRYPT / SCRAMBLE HEADING REVEAL
+     Section headings resolve from random glyphs into real text as they
+     scroll into view — a small nod to the terminal aesthetic. Skips
+     entirely for prefers-reduced-motion (headings just appear normally).
+  ===================================================================== */
+  function initDecryptHeadings() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const GLYPHS = '!<>-_\\/[]{}—=+*^?#$%&01';
+    const headings = document.querySelectorAll('.section-head h2');
+
+    function scramble(el) {
+      const original = el.textContent;
+      const length = original.length;
+      let frame = 0;
+      const totalFrames = 24;
+
+      el.setAttribute('aria-label', original);
+      const interval = setInterval(() => {
+        frame++;
+        const revealCount = Math.floor((frame / totalFrames) * length);
+        let out = '';
+        for (let i = 0; i < length; i++) {
+          const ch = original[i];
+          if (ch === ' ') { out += ' '; continue; }
+          out += i < revealCount ? ch : GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+        }
+        el.textContent = out;
+        if (frame >= totalFrames) {
+          el.textContent = original;
+          clearInterval(interval);
+        }
+      }, 28);
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          scramble(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+
+    headings.forEach(h => io.observe(h));
+  }
+
+  initDecryptHeadings();
+
+  /* =====================================================================
+     SCROLL TO TOP
+     Shows the button after scrolling past the hero, hides it near the
+     top. Respects prefers-reduced-motion for the scroll behavior.
+  ===================================================================== */
+  function initScrollTop() {
+    const btn = document.getElementById('scrollTopBtn');
+    if (!btn) return;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const toggle = () => {
+      btn.classList.toggle('visible', window.scrollY > 480);
+    };
+    window.addEventListener('scroll', toggle, { passive: true });
+    toggle();
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
+  }
+
+  initScrollTop();
+
+  /* =====================================================================
+     SCROLL TO TOP
+     Button fades in once the visitor has scrolled past the hero, and
+     smooth-scrolls back to top on click.
+  ===================================================================== */
+  function initScrollTopButton() {
+    const btn = document.getElementById('scrollTopBtn');
+    if (!btn) return;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function toggle() {
+      btn.classList.toggle('visible', window.scrollY > window.innerHeight * 0.6);
+    }
+    window.addEventListener('scroll', toggle, { passive: true });
+    toggle();
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
+  }
+
+  initScrollTopButton();
+
   /* ---------- footer year ---------- */
   document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -73,9 +370,21 @@ document.addEventListener('DOMContentLoaded', () => {
       github: 'https://github.com/abdulhadi128740-oss/Donor-DSA',
       live: '',
       visual: 'network'
+    },
+    {
+      id: 'wip-next',
+      title: 'Next Build — In Progress',
+      date: '2026',
+      tags: ['Coming Soon'],
+      description: 'One of three next builds — a Unity roguelike, a recipe app (Chefolio), or a full MERN project — is currently in development. This card is a placeholder; it\'ll be swapped for the real thing (with actual code, screenshots, and technical detail) as soon as there\'s something real to show.',
+      detailLabel: 'Status',
+      detail: 'placeholder card, not a finished project — check back soon.',
+      github: 'https://github.com/abdulhadi128740-oss',
+      live: '',
+      visual: 'network'
     }
 
-    // 👉 next projects (Unity roguelike, Chefolio, MERN app) go here when ready
+    // 👉 replace the card above with real Unity roguelike / Chefolio / MERN details when ready
   ];
 
   function projectVisualSVG(type) {
@@ -161,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- scroll reveal ---------- */
   const revealTargets = document.querySelectorAll(
-    '.section-head, .about-text, .project-card, .skill-group, .timeline-item, .contact-inner'
+    '.section-head, .about-copy, .about-facts, .project-card, .skill-group, .timeline-item, .contact-inner'
   );
   revealTargets.forEach(el => el.classList.add('reveal'));
 
